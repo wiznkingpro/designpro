@@ -1,0 +1,17 @@
+<!-- portal/templates/portal/login.html -->
+{% extends 'portal/base.html' %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<h2>Вход в систему</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="id_username">Логин:</label>
+    <input type="text" name="username" required id="id_username">
+
+    <label for="id_password">Пароль:</label>
+    <input type="password" name="password" required id="id_password">
+
+    <button type="submit">Войти</button>
+</form>
+<p>Нет аккаунта? <a href="{% url 'register' %}">Зарегистрируйтесь</a>.</p>
+{% endblock %}

@@ -1,0 +1,12 @@
+<!-- portal/templates/portal/update_status.html -->
+{% extends 'portal/base.html' %}
+{% block title %}Изменить статус{% endblock %}
+{% block content %}
+<h2>Изменить статус заявки "{{ request_obj.title }}"</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+</form>
+<a href="{% url 'admin_dashboard' %}">Назад</a>
+{% endblock %}

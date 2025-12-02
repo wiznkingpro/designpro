@@ -1,0 +1,52 @@
+<!-- portal/templates/portal/dashboard.html -->
+{% extends 'portal/base.html' %}
+{% block title %}Мои заявки{% endblock %}
+{% block content %}
+<h2>Мои заявки</h2>
+<a href="{% url 'create_request' %}" class="btn">Создать заявку</a>
+
+<form method="get" style="margin: 10px 0;">
+    <label>
+        Фильтр по статусу:
+        <select name="status" onchange="this.form.submit()">
+            <option value="">Все</option>
+            {% for value, label in status_choices %}
+                <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+    </label>
+</form>
+
+{% if requests %}
+    <table>
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Название</th>
+                <th>Категория</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for req in requests %}
+            <tr>
+                <td>{{ req.created_at|date:"d.m.Y H:i" }}</td>
+                <td>{{ req.title }}</td>
+                <td>{{ req.category }}</td>
+                <td>{{ req.get_status_display }}</td>
+                <td>
+                    {% if req.status == 'new' %}
+                        <a href="{% url 'delete_request' req.pk %}" class="btn" style="background-color: #e74c3c;">Удалить</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>У вас нет заявок.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,11 @@
+<!-- portal/templates/portal/confirm_delete.html -->
+{% extends 'portal/base.html' %}
+{% block title %}Подтверждение удаления{% endblock %}
+{% block content %}
+<h2>Вы уверены, что хотите удалить заявку "{{ request_obj.title }}"?</h2>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" style="background-color: #e74c3c;">Да, удалить</button>
+    <a href="{% url 'dashboard' %}" class="btn">Отмена</a>
+</form>
+{% endblock %}
