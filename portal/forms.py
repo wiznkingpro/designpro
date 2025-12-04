@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import DesignRequest, Category
 from django.core.validators import RegexValidator
+import re
+
 
 class CustomUserCreationForm(UserCreationForm):
     full_name = forms.CharField(
@@ -15,17 +17,28 @@ class CustomUserCreationForm(UserCreationForm):
             )
         ]
     )
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(required=True, label="Email")
     agree_to_pd = forms.BooleanField(label="Согласие на обработку персональных данных")
 
     class Meta:
         model = User
         fields = ("username", "full_name", "email", "password1", "password2")
+        labels = {
+            'username': 'Логин',
+            'password1': 'Пароль',
+            'password2': 'Повтор пароля',
+        }
 
     def clean_username(self):
         username = self.cleaned_data.get("username")
-        if not username.replace('-', '').isalnum():
-            raise forms.ValidationError("Логин должен содержать только латиницу и дефис.")
+        if not username:
+            raise forms.ValidationError("Логин обязателен.")
+        # Только латинские буквы и дефисы; дефис не в начале/конце, без '--'
+        if not re.fullmatch(r'^[a-zA-Z]+(?:-[a-zA-Z]+)*$', username):
+            raise forms.ValidationError(
+                "Логин должен содержать только латинские буквы и дефисы. "
+                "Дефисы не могут быть в начале, в конце или идти подряд."
+            )
         return username
 
     def save(self, commit=True):
@@ -34,6 +47,7 @@ class CustomUserCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
 
 class DesignRequestForm(forms.ModelForm):
     class Meta:
@@ -49,6 +63,7 @@ class DesignRequestForm(forms.ModelForm):
             if ext not in ['jpg', 'jpeg', 'png', 'bmp']:
                 raise forms.ValidationError("Разрешены только форматы: jpg, jpeg, png, bmp.")
         return image
+
 
 class StatusUpdateForm(forms.ModelForm):
     class Meta:
