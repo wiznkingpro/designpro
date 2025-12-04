@@ -2,27 +2,36 @@
 {% extends 'portal/base.html' %}
 {% block title %}Главная — Design.pro{% endblock %}
 {% block content %}
-<h1>Добро пожаловать в Design.pro!</h1>
-
+    <br>
+    <center>
+    <h1 style="font-size: 42px">Добро пожаловать в Design.pro!</h1>
+    </center>
+    <br>
 <p><strong>Заявок в работе:</strong> {{ in_progress_count }}</p>
 
 {% if completed_requests %}
     <h2>Последние выполненные работы ({{ completed_requests|length }}):</h2>
+    {% if not user.is_authenticated %}
+    <p><a href="{% url 'login' %}">Войдите</a>, чтобы создать заявку.</p>
+{% endif %}
+
+    <div class="request_cart_cont">
     {% for req in completed_requests %}
-        <div class="request-card">
-            <h3>{{ req.title }}</h3>
-            <p><strong>Категория:</strong> {{ req.category }}</p>
-            <p><strong>Дата:</strong> {{ req.created_at|date:"d.m.Y H:i" }}</p>
-            {% if req.image %}
-                <img src="{{ req.image.url }}" alt="План помещения">
-            {% endif %}
-        </div>
+
+            <div class="request-card">
+                <h3>{{ req.title }}</h3>
+                <p><strong>Категория:</strong> {{ req.category }}</p>
+                <p><strong>Дата:</strong> {{ req.created_at|date:"d.m.Y H:i" }}</p>
+                {% if req.image %}
+                    <img src="{{ req.image.url }}" alt="План помещения">
+                {% endif %}
+            </div>
+
     {% endfor %}
+     </div>
 {% else %}
     <p>Нет выполненных работ.</p>
 {% endif %}
 
-{% if not user.is_authenticated %}
-    <p><a href="{% url 'login' %}">Войдите</a>, чтобы создать заявку.</p>
-{% endif %}
+
 {% endblock %}

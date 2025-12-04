@@ -1,12 +1,16 @@
 /* portal/static/portal/style.css */
 
-
+*{
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+}
 
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
+    font-family: monospace;
     background-color: #f9f9f9;
     color: #333;
+    padding: 30px;
 }
 h1, h2 {
     color: #2c3e50;
@@ -74,17 +78,7 @@ th {
 nav a:hover {
     text-decoration: underline;
 }
-.request-card {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 15px;
-    background: white;
-}
-.request-card img {
-    max-width: 200px;
-    height: auto;
-    margin-top: 10px;
-}
+
 
 nav{
     width: 100%;
@@ -104,8 +98,34 @@ nav a {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 24px;
+    margin-left: 20px;
 }
 
 nav strong{
     color: white;
+}
+
+.request_cart_cont{
+    width: 100%;
+    min-height: 200px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+.request-card {
+    width: 100%;
+    /*border: 1px solid #ddd;*/
+    padding: 15px;
+    margin-bottom: 15px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.request-card img {
+    max-width: 200px;
+    height: auto;
+    margin-top: 10px;
 }
