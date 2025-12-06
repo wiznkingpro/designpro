@@ -1,4 +1,4 @@
-# portal/admin.py — ✅ ПРАВИЛЬНО
+
 from django.contrib import admin
 from .models import Category, DesignRequest
 
